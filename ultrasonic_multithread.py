@@ -1,27 +1,27 @@
 import RPi.GPIO as GPIO
 import time
+import threading
 
 distance =0;
 
 def ultrasonic ():
- echoPIN = 15
- triggerPIN = 14
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(echoPIN,GPIO.IN)
+    GPIO.setup(triggerPIN,GPIO.OUT)
+    GPIO.setwarnings(True)
+ while True:
+     echoPIN = 15
+     triggerPIN = 14
 
- GPIO.setwarnings(False)
- GPIO.setmode(GPIO.BCM)
- GPIO.setup(echoPIN,GPIO.IN)
- GPIO.setup(triggerPIN,GPIO.OUT)
- GPIO.setwarnings(True)
- global distance
- duration = 0
- GPIO.output(triggerPIN, 0)
- time.sleep(0.000002)
- GPIO.output(triggerPIN, 1)
- time.sleep(0.000010)
- GPIO.output(triggerPIN, 0)
- time.sleep(0.000002)
-
- while True
+     global distance
+     duration = 0
+     GPIO.output(triggerPIN, 0)
+     time.sleep(0.000002)
+     GPIO.output(triggerPIN, 1)
+     time.sleep(0.000010)
+     GPIO.output(triggerPIN, 0)
+     time.sleep(0.000002)
      # wait for echo reading
      while GPIO.input(echoPIN) == 0: pass
      startT = time.time()
@@ -47,7 +47,5 @@ def main():
         print(distance)
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        GPIO.cleanup()
+    main()
+
